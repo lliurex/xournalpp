@@ -1,0 +1,2 @@
+# git-build-recipe format 0.4 deb-version {debupstream}+dev~202104260446
+lp:xournalpp git-commit:85e8cd389458edd7144707ebc5fe3d076001f4a9
