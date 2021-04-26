@@ -255,17 +255,7 @@ if (NOT _found AND "Boost" IN_LIST want_components)
         add_library(std::filesystem ALIAS std_filesystem)
     endif ()
 elseif (NOT _found AND "ghc" IN_LIST want_components)
-    message("-- Using ghc::filesystem (git download)")
-    set (GHC_FILESYSTEM ghcFilesystem_git)
-    ExternalProject_Add(${GHC_FILESYSTEM}
-      GIT_REPOSITORY "https://github.com/gulrak/filesystem.git"
-      GIT_TAG "v1.3.8"
-      LOG_DOWNLOAD 1
-      CONFIGURE_COMMAND ""
-      BUILD_COMMAND ""
-      UPDATE_COMMAND ""
-      INSTALL_COMMAND ""
-      )
+    message("-- Using ghc::filesystem")
     set(_found TRUE)
     set(CXX_FILESYSTEM_HEADER ghc/filesystem.hpp CACHE STRING "The header that should be included to obtain the filesystem APIs" FORCE)
     set(CXX_FILESYSTEM_NAMESPACE ghc::filesystem CACHE STRING "The C++ namespace that contains the filesystem APIs" FORCE)
@@ -273,7 +263,7 @@ elseif (NOT _found AND "ghc" IN_LIST want_components)
     add_library(std_filesystem INTERFACE)
     add_dependencies(std_filesystem ghcFilesystem_git)
     target_compile_features(std_filesystem INTERFACE cxx_std_17)
-    ExternalProject_Get_Property(${GHC_FILESYSTEM} SOURCE_DIR)
+    set(SOURCE_DIR external/ghcFilesystem)
     file(MAKE_DIRECTORY "${SOURCE_DIR}/include")
     target_include_directories(std_filesystem INTERFACE "${SOURCE_DIR}/include")
     target_compile_definitions(std_filesystem INTERFACE -DGHC_FILESYSTEM)
